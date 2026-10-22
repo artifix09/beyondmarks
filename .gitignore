@@ -43,3 +43,6 @@ Thumbs.db
 *.pdf
 data/raw/
 data/tmp/
+
+# --- Claude Code local config ---
+.claude/
