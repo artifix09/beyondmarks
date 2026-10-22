@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Write-Output \"--- claude on PATH ---\"; $c = Get-Command claude -ErrorAction SilentlyContinue; if \\($c\\) { $c.Source } else { \"not found on PATH\" }; Write-Output \"--- local bin ---\"; if \\(Test-Path \"$env:USERPROFILE\\\\.local\\\\bin\"\\) { Get-ChildItem \"$env:USERPROFILE\\\\.local\\\\bin\" | Select-Object -ExpandProperty Name } else { \"missing\" }; Write-Output \"--- code CLI ---\"; $v = Get-Command code -ErrorAction SilentlyContinue; if \\($v\\) { $v.Source } else { \"code not found on PATH\" })",
+      "PowerShell(Write-Output \"--- User PATH \\(registry\\) ---\"; $up = [Environment]::GetEnvironmentVariable\\(\"Path\",\"User\"\\); $up -split ';' | Where-Object { $_ -ne '' }; Write-Output \"--- contains .local\\\\bin? ---\"; if \\($up -split ';' -contains \"$env:USERPROFILE\\\\.local\\\\bin\"\\) { \"YES\" } else { \"NO\" }; Write-Output \"--- version ---\"; & \"$env:USERPROFILE\\\\.local\\\\bin\\\\claude.exe\" --version)"
+    ]
+  }
+}
