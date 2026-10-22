@@ -1,0 +1,3 @@
+# Generated candidates, page caches, exports — none of it belongs in git.
+*
+!.gitignore
