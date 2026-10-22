@@ -334,8 +334,14 @@ def gate_g(conn, client, embed_model: str, book_id: str, gold_path: Path) -> Non
         print("  every chunking change you make from here on.")
         return
 
-    with gold_path.open(encoding="utf-8-sig", newline="") as fh:
-        gold = [r for r in csv.DictReader(fh) if r.get("question")]
+    # Leading # comments explain the file; DictReader would read the first one
+    # as the header.
+    lines = [
+        line
+        for line in gold_path.read_text(encoding="utf-8-sig").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    gold = [r for r in csv.DictReader(lines) if r.get("question")]
 
     answerable = [r for r in gold if (r.get("page") or "").strip()]
     unanswerable = [r for r in gold if not (r.get("page") or "").strip()]

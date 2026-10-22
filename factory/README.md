@@ -9,7 +9,8 @@ The book is a 222-page PDF with no text layer: every page is a scan, so every pa
 to go through a vision model. Seven stages, each writing to disk, each resumable.
 
 ```
-S1  page map        by hand, from the contents page          page_map.csv
+S0b merge chapters  chapter PDFs -> one book + a page map     merge_chapters.py
+S1  page map        one number per chapter, by hand           page_map.csv
 S2  extract pages   PDF -> image files                       extract_pages.py
 S3  transcribe      image -> Markdown + LaTeX, via Gemini     transcribe_pages.py
 S4  chunk           Markdown -> retrieval chunks              chunker.py
@@ -28,10 +29,26 @@ Prints whether there is a text layer, the native scan DPI, and whether each page
 single full-page image. Read the DPI off this before choosing a render setting: rendering
 above the native resolution buys tokens, not detail.
 
+### S0b — one book out of the chapter PDFs
+
+The book arrived as one PDF per chapter. The rest of the pipeline works on a single book
+with one page numbering, so join them first:
+
+```bash
+python -I merge_chapters.py ../path/to/chapters --out ./work/physics9.pdf
+```
+
+Chapters are ordered by the number in the filename, so `ch10` lands after `ch3` rather
+than after `ch1`. If the filenames have no numbers, pass `--order` with a text file
+listing them in the right order.
+
+This also writes `page_map.csv` with `pdf_start` and `pdf_end` already filled in, because
+it knows how many pages each chapter contributed.
+
 ### S1 — the page map
 
-Copy `page_map.example.csv` to `page_map.csv` and fill it from the book's contents page.
-About twenty minutes.
+Open the merged PDF and fill in the one remaining column, `printed_start`: the page
+number printed on the first page of each chapter. One number per chapter, a few minutes.
 
 This is the only thing standing between a student and a wrong page citation. The printed
 page number is not the PDF index — front matter usually offsets them by ten to twenty

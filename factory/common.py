@@ -127,20 +127,33 @@ class PageMap:
     def from_csv(cls, path: Path) -> PageMap:
         import csv
 
-        with path.open(encoding="utf-8-sig", newline="") as fh:
-            rows = []
-            for raw in csv.DictReader(fh):
-                if not raw.get("pdf_start"):
-                    continue
-                rows.append(
-                    {
-                        "chapter_no": int(raw["chapter_no"]),
-                        "title": (raw.get("title") or "").strip(),
-                        "pdf_start": int(raw["pdf_start"]),
-                        "pdf_end": int(raw["pdf_end"]),
-                        "printed_start": int(raw["printed_start"]),
-                    }
+        # The generated map explains itself in leading # comments, which
+        # DictReader would otherwise read as the header row.
+        lines = [
+            line
+            for line in path.read_text(encoding="utf-8-sig").splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+        rows = []
+        for raw in csv.DictReader(lines):
+            if not raw.get("pdf_start"):
+                continue
+            if not (raw.get("printed_start") or "").strip():
+                sys.exit(
+                    f"{path}: chapter {raw.get('chapter_no')} has no "
+                    "printed_start. Open the merged PDF at page "
+                    f"{raw.get('pdf_start')} and type the page number printed "
+                    "on it. Every citation in that chapter depends on it."
                 )
+            rows.append(
+                {
+                    "chapter_no": int(raw["chapter_no"]),
+                    "title": (raw.get("title") or "").strip(),
+                    "pdf_start": int(raw["pdf_start"]),
+                    "pdf_end": int(raw["pdf_end"]),
+                    "printed_start": int(raw["printed_start"]),
+                }
+            )
         if not rows:
             sys.exit(f"{path} has no usable rows")
         return cls(rows)
