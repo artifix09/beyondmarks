@@ -1,0 +1,29 @@
+# BeyondMarks backend — FastAPI, Python 3.11+
+# Lower bounds only for now. Freeze with `pip freeze > requirements.lock.txt`
+# once the stack stops moving (target: 30 Oct, before the first Render deploy).
+
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+pydantic-settings>=2.2
+
+# Postgres / Supabase. Raw SQL through psycopg: the RAG queries are pgvector
+# plus full-text, which no ORM expresses comfortably.
+psycopg[binary,pool]>=3.1
+pgvector>=0.2.5
+
+# Supabase JWT verification (auth.py). The API verifies, it never issues.
+pyjwt>=2.8
+
+# Gemini — imported by app/ai/gemini.py and nowhere else.
+google-genai>=0.3
+
+# Numerical templates: a safe expression evaluator, never Python eval().
+sympy>=1.12
+
+httpx>=0.27
+python-multipart>=0.0.9
+
+# dev
+pytest>=8.0
+pytest-asyncio>=0.23

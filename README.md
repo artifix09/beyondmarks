@@ -15,31 +15,47 @@ subject — all of that is data.
 | Backend | FastAPI, Python 3.11+ (Render) |
 | Database | Supabase Postgres + pgvector |
 | Auth | Supabase Auth, Google sign-in only |
-| AI | Gemini API |
+| AI | Gemini API, through one wrapper |
+| Research | Kaggle notebooks, offline |
 
 ## Repo layout
 
 ```
-context/    project context, data model (schema.sql) and design diagrams
+CLAUDE.md                  full project context — read this first, it wins over older docs
+CONTRIBUTING.md            branch rules, local setup, secrets
+db/schema.sql              data model v3, the baseline
+supabase/migrations/       numbered changes after the baseline
+backend/                   FastAPI service
+  app/engine/              the adaptive engine — plain, tested Python
+  app/ai/gemini.py         the only module that imports the Gemini SDK
+  tests/
+frontend/src/              React pages
+factory/                   offline content scripts (run on Colab)
+research/bloom_classifier/ offline Bloom research (Kaggle)
+docs/PLAN.md               modules, work order, phases, lanes
+docs/diagrams/             architecture and system design
 ```
-
-Start with `context/CLAUDE.md` — it is the complete, current picture of the project and wins over
-any older document.
 
 ## Getting started
 
-Clone, then create your own `.env` from `.env.example` (never commit `.env`).
-
 ```bash
-git clone https://github.com/<owner>/beyondmarks.git
-cd beyondmarks
+# backend
+cd backend && python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt && cp .env.example .env
+uvicorn app.main:app --reload
+
+# frontend
+cd frontend && npm install && cp .env.example .env.local && npm run dev
 ```
+
+Open http://localhost:5173 — it reports whether the API is reachable and which environment
+keys are still missing. Full setup, including Colab and Kaggle, is in
+[CONTRIBUTING.md](CONTRIBUTING.md) and [docs/PLAN.md](docs/PLAN.md).
 
 ## Working on this repo
 
-- `main` is protected by convention: no direct pushes. Branch, then open a pull request.
-- Branch names: `feat/<short-name>`, `fix/<short-name>`, `chore/<short-name>`.
-- One reviewer approves before merge.
+Branch, then pull request, one approval before merge. Never commit to `main` directly, and
+never commit a key. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Team
 

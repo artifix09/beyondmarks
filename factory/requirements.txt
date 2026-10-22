@@ -1,0 +1,12 @@
+# Offline content scripts. Run on a laptop or in Colab — see docs/PLAN.md.
+# Kept separate from the backend so a Colab runtime installs only what it needs.
+
+google-genai>=0.3
+psycopg[binary]>=3.1
+pgvector>=0.2.5
+pymupdf>=1.24          # PDF -> page images; normal text extraction breaks formulas
+pillow>=10.2
+sympy>=1.12            # template answers, never Python eval()
+pandas>=2.2            # CSV in and out of the review sheet
+tqdm>=4.66
+python-dotenv>=1.0
