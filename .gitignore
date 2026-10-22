@@ -49,3 +49,8 @@ data/tmp/
 
 # --- build artifacts ---
 *.tsbuildinfo
+
+# --- factory working files ---
+factory/work/
+factory/page_map.csv
+factory/gold_set.csv

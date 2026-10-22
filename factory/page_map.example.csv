@@ -1,0 +1,17 @@
+# Built by hand from the contents page. Twenty minutes, and every page
+# citation the student ever sees depends on it being right.
+#
+# chapter_no    1, 2, 3 ... as printed in the book
+# title         the chapter title, used to match chapters rows in the database
+# pdf_start     the PDF page index (1-based) where the chapter starts
+# pdf_end       the PDF page index where it ends
+# printed_start the page number PRINTED on that first page
+#
+# printed_page(pdf_index) = printed_start + (pdf_index - pdf_start)
+#
+# Check one row by opening the PDF at pdf_start and reading the number in the
+# corner. Front matter usually makes these differ by 10-20.
+chapter_no,title,pdf_start,pdf_end,printed_start
+1,Physical Quantities and Measurement,14,33,1
+2,Kinematics,34,57,21
+3,Dynamics,58,83,45

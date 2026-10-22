@@ -1,0 +1,21 @@
+# Gate G — the acceptance test for ingestion, and the regression test for
+# every chunking change afterwards.
+#
+# question  what a student would actually type
+# page      the PRINTED page the answer is on; leave EMPTY for a question the
+#           book does not answer (those check that off-book questions score
+#           low, which is what lets the chat say "I am not sure" instead of
+#           inventing something)
+# chapter   optional, for reading the results
+#
+# Aim for 50 rows, about 5 of them with no page. Build them from the
+# end-of-chapter exercises: the answer's page is already known.
+question,page,chapter
+What is the SI unit of force?,47,3
+State Newton's second law of motion.,52,3
+A car covers 100 m in 5 s. What is its average speed?,26,2
+Why does a passenger jerk forward when a bus stops suddenly?,49,3
+What is the difference between scalar and vector quantities?,23,2
+Which instrument is used to measure the thickness of a wire?,12,1
+Who won the cricket world cup in 1992?,,
+What is the capital of Australia?,,
